@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aboutlive.aboutlive.Impl.ArticleImpl">
+    <!--resultType 返回的实体类类型 -->
+    <select id="article" resultType="com.aboutlive.aboutlive.Entity.Article"> <!-- 根据id获取文章信息 -->
+        SELECT * FROM article WHERE article.id = #{id}
+    </select>
+
+    <select id="getCommentCount" resultType="java.lang.Integer"><!-- 获取所有评论数量-->
+        select count(*)
+        from comment;
+    </select>
+
+    <select id="getInformationCount" resultType="java.lang.Integer"><!-- 获取所有未读消息-->
+        SELECT COUNT(*) FROM information i WHERE i.userKey=#{userKey} AND i.read=1 OR i.type="系统" AND i.read=1;
+    </select>
+
+    <!-- 账号检测是否可用 -->
+    <select id="detect" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `user` WHERE UName=#{UName}
+    </select>
+
+    <select id="getUserInformation" resultType="com.aboutlive.aboutlive.Entity.Information"><!-- 获取该用户未读的类型信息-->
+        SELECT * FROM information i WHERE i.`read`=1 AND userKey=#{userKey} AND i.type=#{type};
+    </select>
+
+    <select id="getSystemInformation" resultType="com.aboutlive.aboutlive.Entity.Information"><!-- 获取系统消息的所有信息-->
+        SELECT * FROM information WHERE type="系统";
+    </select>
+
+    <select id="getUserInformation20" resultType="com.aboutlive.aboutlive.Entity.Information"><!-- 获取该用户未读的类型信息-->
+         select *  from information i WHERE i.`read`=2 AND i.type=#{type} AND i.userKey=#{userKey} order by id desc LIMIT 20
+    </select>
+
+
+    <select id="commentArticleIdCount" resultType="java.lang.Integer"><!-- 获取指定文章的评论数量-->
+        SELECT COUNT(*) FROM `comment` c WHERE c.articleId=#{articleId}
+    </select>
+
+    <select id="userAllComment" resultType="com.aboutlive.aboutlive.Entity.Comment"><!-- 获取当前用户的所有评论-->
+        SELECT c.id,c.articleId,c.userKey,c.userContent,c.likeNumber,c.nextCommentId,c.time,u.headImage,u.name,u.experience FROM
+         `comment` c INNER JOIN `user` u WHERE c.userKey=#{userKey} and u.userKey=#{userKey}
+    </select>
+
+    <select id="comment" resultType="com.aboutlive.aboutlive.Entity.Comment">
+<!--        SELECT * FROM comment WHERE articleId=#{id} LIMIT #{Start},#{Page} &lt;!&ndash;分页 &ndash;&gt;-->
+        SELECT c.id,c.articleId,c.userKey,c.userContent,c.likeNumber,c.nextCommentId,c.time,u.headImage,u.name,u.experience FROM
+         `comment` c INNER JOIN `user` u WHERE c.userKey=u.userKey and articleId=#{id} LIMIT #{Start},#{Page}
+    </select>
+
+    <select id="articleComment" resultType="com.aboutlive.aboutlive.Entity.Article"><!-- 根据文章的id，获取发布人的信息和文章背景图，在评论的页面-->
+        SELECT a.imagesBase64,a.time,a.userKey FROM article a WHERE a.id=#{id}
+    </select>
+
+
+    <!--发布文章-->
+    <insert id="addArticle" useGeneratedKeys="true" keyColumn="id"> <!-- useGeneratedKeys：有自动增长 keyProperty：自动增长字段名 -->
+        INSERT INTO `aboutlive`.`article` (`userKey`, `imagesBase64`, `content`, `author`, `from`, `time` ,`type` ,`featured`) VALUES (#{userKey}, #{imagesBase64}, #{content}, #{author}, #{from}, #{time},#{type},#{featured});
+
+    </insert>
+
+    <!--information消息-->
+    <insert id="addInformation" useGeneratedKeys="true" keyColumn="id"> <!-- useGeneratedKeys：有自动增长 keyProperty：自动增长字段名 -->
+        INSERT INTO `aboutlive`.`information` (`userKey`, `content`, `type`, `sendUserKey`,`read`, `articleId`) VALUES (#{userKey}, #{content}, #{type}, #{sendUserKey},#{read},#{articleId});
+    </insert>
+    <!--删除information消息-->
+    <delete id="delInformation">
+        DELETE FROM information WHERE sendUserKey=#{userKey} and articleId=#{articleId}
+    </delete>
+
+    <!--    评论-->
+    <insert id="addComment" useGeneratedKeys="true" keyColumn="id"> <!-- useGeneratedKeys：有自动增长 keyProperty：自动增长字段名 -->
+        INSERT INTO `aboutlive`.`comment` (`articleId`, `userKey`, `userContent`, `likeNumber`, `nextCommentId`, `time`) VALUES (#{articleId}, #{userKey}, #{userContent}, '0', NULL, #{time});
+    </insert>
+
+    <select id="articleLikeCount" resultType="java.lang.Integer"><!-- 获取指定文章的喜欢数量-->
+        SELECT COUNT(IF (c.articleId=#{articleId},1,null)) 'count' FROM `articleLike` c
+    </select>
+
+    <!-- 根据userKey获取用户发布的所有文章-->
+    <select id="userAllArticle" resultType="com.aboutlive.aboutlive.Entity.Article">
+        SELECT * FROM article WHERE userKey=#{userKey}
+    </select>
+
+    <!-- 查询是否已经收藏-->
+    <select id="articleLike" resultType="com.aboutlive.aboutlive.Entity.ArticleLike">
+        SELECT * FROM `articleLike` WHERE userKey=#{userKey} AND articleId=#{articleId};
+    </select>
+    <!-- 查询该用户收藏的所有文章List-->
+    <select id="articleLikeList" resultType="com.aboutlive.aboutlive.Entity.ArticleLike">
+        SELECT * FROM `articleLike` WHERE userKey=#{userKey};
+    </select>
+    <!--收藏文章-->
+    <insert id="addLikeArticle" useGeneratedKeys="true" keyColumn="id"> <!-- useGeneratedKeys：有自动增长 keyProperty：自动增长字段名 -->
+        INSERT INTO `aboutlive`.`articleLike` (`userKey`, `articleId`) VALUES (#{userKey}, #{articleId});
+    </insert>
+    <!--取消收藏的文章-->
+    <delete id="delLikeArticle">
+        DELETE FROM articleLike WHERE userKey=#{userKey} AND articleId=#{articleId};
+    </delete>
+
+    <!--删除评论-->
+    <delete id="delComment">
+        DELETE FROM comment WHERE userKey=#{userKey} AND id=#{id};
+    </delete>
+
+    <!-- 查询所有文章的id-->
+    <select id="allArticleId" resultType="com.aboutlive.aboutlive.Entity.Article">
+        SELECT article.id FROM article
+    </select>
+
+    <!-- 随机查询十条精选的文章-->
+    <select id="randFeatured" resultType="com.aboutlive.aboutlive.Entity.Article">
+        SELECT * FROM article WHERE featured=1 ORDER BY RAND() LIMIT 10;
+    </select>
+
+    <!-- 随机查询十条摘自的文章-->
+    <select id="randTaken" resultType="com.aboutlive.aboutlive.Entity.Article">
+        SELECT * FROM article WHERE article.from=1 ORDER BY RAND() LIMIT 10;
+    </select>
+
+    <!-- 最近十条文章-->
+    <select id="newArticle" resultType="com.aboutlive.aboutlive.Entity.Article">
+        SELECT * FROM article ORDER BY id DESC LIMIT 10;
+    </select>
+
+    <!-- 随机查询十条该类型的文章-->
+    <select id="articleType10" resultType="com.aboutlive.aboutlive.Entity.Article">
+        SELECT * FROM article WHERE type=#{type} ORDER BY RAND() LIMIT 10;
+    </select>
+
+    <!-- 随机查询十条原创的文章-->
+    <select id="randOriginal" resultType="com.aboutlive.aboutlive.Entity.Article">
+        SELECT * FROM article WHERE article.from=2 ORDER BY RAND() LIMIT 10;
+    </select>
+
+    <!-- 搜索所有的相关内容-->
+    <select id="searchContent" resultType="com.aboutlive.aboutlive.Entity.Article">
+        SELECT * FROM article WHERE content LIKE CONCAT('%',#{text},'%') OR author LIKE CONCAT('%',#{text},'%')
+    </select>
+
+    <!-- 搜索该类型未读的消息数-->
+    <select id="readCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM information i WHERE i.`read`=1 AND i.type=#{type} AND i.userKey=#{userKey};
+    </select>
+
+    <!--删除文章-->
+    <delete id="delArticle">
+        DELETE FROM article WHERE id=#{id};
+    </delete>
+
+<!--    将该用户所有该类型消息变为已读-->
+    <update id="readUpData">
+        UPDATE information i SET
+        i.`read`=2
+        WHERE i.`read`=1 AND userKey=#{userKey} AND i.type=#{type};
+    </update>
+
+    <!--    首页推荐-->
+    <update id="featuredUpdate">
+        UPDATE `aboutlive`.`article` SET `featured`=#{featured} WHERE (`id`=#{id});
+    </update>
+
+    <!-- 回复-->
+    <insert id="addReplyComment" useGeneratedKeys="true" keyColumn="id"> <!-- useGeneratedKeys：有自动增长 keyProperty：自动增长字段名 -->
+        INSERT INTO `aboutlive`.`comment` (`articleId`, `userKey`, `userContent`, `likeNumber`, `nextCommentId`, `time`) VALUES (#{articleId}, #{sendUserKey}, #{userContent}, '0', #{replyUser}, #{time});
+    </insert>
+
+    <!-- 查询点赞排行前100的数据-->
+    <select id="articleLike100" resultType="com.aboutlive.aboutlive.Entity.ArticleLike100">
+        SELECT a.id,a.userKey,a.content,COUNT(al.articleId) as likeCount FROM article a
+JOIN articleLike al ON a.id=al.articleId
+GROUP BY a.id ORDER BY likeCount DESC LIMIT 100
+    </select>
+
+    <!-- 首页推荐-->
+    <select id="featured" resultType="com.aboutlive.aboutlive.Entity.Article">
+        SELECT * FROM article WHERE featured=1;
+    </select>
+
+
+
+</mapper>

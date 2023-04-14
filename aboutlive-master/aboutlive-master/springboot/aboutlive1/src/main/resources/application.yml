@@ -1,0 +1,70 @@
+server:
+  port: 8081
+#  ssl:
+#    key-store: classpath:seek.keystore
+#    key-store-password: 123456
+#    key-store-type: jks
+#    key-alias: boot
+
+spring:
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+  application:
+    name: /abc
+  datasource:
+    url: jdbc:mysql://xxx.xxx.xxx.xxx:3306/aboutlive?serverTimezone=Asia/Shanghai
+    username: xxx
+    password: xxx
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    dbcp2:
+      min-idle: 5
+      initial-size: 5
+      max-total: 5
+      max-wait-millis: 150
+    hikari:
+      connection-timeout: 60000
+      validation-timeout: 3000
+      idle-timeout: 60000
+      login-timeout: 5
+      max-lifetime: 60000
+      maximum-pool-size: 10
+      minimum-idle: 10
+      read-only: false
+
+  redis:  #Redis
+    host: xxx.xxx.xxx.xxx
+    password: xxx
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 500
+        min-idle: 0
+    lettuce:
+      shutdown-timeout: 0
+key:
+  content: 9FE4BD9CE88085EFBC9AE9A1B9E58589E69DB0EFBC8C62E7AB99E5BC80E6BA907570E4B8BBEFBC9AE8A5BFE6A59AE79BB8E6809DE88BA6
+  msg: 原作者，B站up主，西楚相思苦，项光杰著作，享受全部版权，商用欢迎举报。
+  max: 10
+  min: -1
+  idle: 1
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml   #xml
+  type-aliases-package: com.xhx.xhx.Entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    use-column-label: true
+    use-generated-keys: true
+    call-setters-on-nulls: true
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
+#logging.level.org.springframework.boot.autoconfigure: error
+customkey:

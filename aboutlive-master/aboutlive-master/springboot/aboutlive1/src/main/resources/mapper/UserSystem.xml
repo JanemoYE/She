@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aboutlive.aboutlive.Impl.UserSystemImpl">
+    <!--resultType 返回的实体类类型 -->
+    <!--    查询所有用户-->
+    <select id="AllUser" resultType="com.aboutlive.aboutlive.Entity.User">
+        SELECT * FROM user LIMIT #{Start},#{Page}
+    </select>
+
+    <!--    查询所有文章-->
+    <select id="AllArticle" resultType="com.aboutlive.aboutlive.Entity.Article">
+        SELECT * FROM article LIMIT #{Start},#{Page}
+    </select>
+
+    <!--    查询所有评论-->
+    <select id="AllComment" resultType="com.aboutlive.aboutlive.Entity.Comment">
+        SELECT * FROM `comment` c INNER JOIN `user` u WHERE c.userKey=u.userKey LIMIT #{Start},#{Page}
+    </select>
+
+    <select id="getCommentCount" resultType="java.lang.Integer"><!-- 获取所有评论数量-->
+        select count(*)
+        from comment;
+    </select>
+
+    <select id="getArticleCount" resultType="java.lang.Integer"><!-- 获取所有文章数量-->
+        select count(*)
+        from article;
+    </select>
+
+    <select id="getInteractive" resultType="java.lang.Integer"><!-- 获取所有互动数量-->
+        SELECT COUNT(*) FROM `comment` WHERE nextCommentId!=0;
+    </select>
+
+    <select id="getUserCount" resultType="java.lang.Integer"><!-- 获取所有文章数量-->
+        select count(*)
+        from `user`;
+    </select>
+
+    <select id="userInformartion" resultType="com.aboutlive.aboutlive.Entity.User"><!-- 根据用户id获取用户的所有信息-->
+        SELECT * FROM `user` WHERE id=#{id}
+    </select>
+
+    <update id="userUpDate"><!--修改用户信息-->
+        UPDATE `aboutlive`.`user` SET
+        `UName`=#{UName},
+        `UPwd`=#{UPwd},
+        `email`=#{email},
+        `sex`=#{sex},
+        `born`=#{born},
+        `experience`=#{experience}
+        WHERE `id`=2;
+    </update>
+
+    <!--删除评论-->
+    <delete id="delComment">
+        DELETE FROM comment WHERE id=#{id};
+    </delete>
+
+<!--    解封-->
+    <update id="stateTrue">
+        UPDATE `aboutlive`.`user` SET `state`='1' WHERE `id`=#{id};
+    </update>
+
+<!--    封号-->
+    <update id="stateFalse">
+        UPDATE `aboutlive`.`user` SET `state`='2' WHERE `id`=#{id};
+    </update>
+
+    <!--    文章审核-->
+    <update id="articleState">
+        UPDATE `aboutlive`.`article` SET `state`=#{state} WHERE (`id`=#{id});
+    </update>
+
+    <insert id="mute">
+        INSERT INTO `aboutlive`.`user_mute` (`userKey`, `muteStart`, `muteEnd`) VALUES (#{userKey}, #{muteStart}, #{muteEnd});
+    </insert>
+
+    <select id="countMute" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user_mute WHERE userKey=#{userKey};
+    </select>
+
+    <!--    查找需要审核的文章-->
+    <select id="articleAudit" resultType="com.aboutlive.aboutlive.Entity.Article"> <!-- 根据id获取文章信息 -->
+        SELECT * FROM article WHERE state=1
+    </select>
+</mapper>

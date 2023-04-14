@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aboutlive.aboutlive.Impl.UserImpl">
+    <!--resultType 返回的实体类类型 -->
+    <!-- 用户登录 -->
+    <select id="login" resultType="com.aboutlive.aboutlive.Entity.User">
+        SELECT * FROM user WHERE user.UName =#{UName} and user.UPwd=#{UPwd}
+    </select>
+    <!--删除账号-->
+    <delete id="delUser">
+        DELETE FROM user WHERE userKey=#{userKey};
+    </delete>
+
+    <!-- 查询用户信息 -->
+    <select id="selectUser" resultType="com.aboutlive.aboutlive.Entity.User">
+        SELECT * FROM `user` u WHERE u.userKey=#{userKey}
+    </select>
+
+    <!-- 随机查询十条用户 -->
+    <select id="randTenUser" resultType="com.aboutlive.aboutlive.Entity.User">
+        SELECT * FROM `user` WHERE state=1 ORDER BY RAND() LIMIT 10;
+    </select>
+
+    <!-- 查询用户经验值 -->
+    <select id="selectUserExperience" resultType="com.aboutlive.aboutlive.Entity.User">
+        SELECT `user`.experience FROM `user` WHERE userKey=#{userKey}
+    </select>
+
+<!--    添加账号-->
+    <insert id="register" useGeneratedKeys="true" keyColumn="id"> <!-- useGeneratedKeys：有自动增长 keyProperty：自动增长字段名 -->
+        INSERT INTO `aboutlive`.`user` (`userKey`, `name`, `UName`, `UPwd`, `headImage`, `email`, `sex`, `born`, `experience`) VALUES
+        (#{userKey}, #{name}, #{UName}, #{UPwd}, 'http://aboutlive.top/01c6c355f0d8ab32f875a13270c97b.jpg%401280w_1l_2o_100sh.jpg', '', '1', '0000-01-01', '0');
+
+    </insert>
+    <!-- 账号检测是否可用 -->
+    <select id="detect" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `user` WHERE UName=#{UName}
+    </select>
+
+    <update id="upDate">
+        UPDATE user SET
+        user.headImage =#{userDate.headImage},
+        user.name =#{userDate.name},
+        user.sex =#{userDate.sex},
+        user.born =#{userDate.born},
+        user.email =#{userDate.email}
+        WHERE user.userKey=#{userDate.userKey};
+    </update>
+
+    <select id="article" resultType="com.aboutlive.aboutlive.Entity.Article"> <!-- 根据id获取文章信息 -->
+        SELECT * FROM article WHERE article.id = #{id}
+    </select>
+
+    <select id="myFan" resultType="java.lang.Integer"><!-- 获取所有关注数量-->
+        SELECT COUNT(IF( fan=#{userKey},1,null)) 'fan' FROM focusAndFan
+    </select>
+    <select id="myFocus" resultType="java.lang.Integer"><!-- 获取所有粉丝数量-->
+        SELECT COUNT(IF (focus=#{userKey},1,null)) 'focus' FROM focusAndFan
+    </select>
+
+    <select id="selectFan" resultType="com.aboutlive.aboutlive.Entity.User"><!--寻找我的粉丝，当focus关注为我时，fan便是我的粉丝-->
+        SELECT f.fan,u.headImage,u.`name`,u.experience,u.userKey FROM focusAndFan f,`user` u WHERE f.focus=#{userKey} AND u.userKey=f.fan
+    </select>
+    <select id="selectFocus" resultType="com.aboutlive.aboutlive.Entity.User"><!--寻找我的粉丝，当fan粉丝为我时，focus便是我的关注-->
+        SELECT f.focus,u.headImage,u.`name`,u.experience,u.userKey FROM focusAndFan f,`user` u WHERE f.fan=#{userKey} AND u.userKey=f.focus
+    </select>
+
+
+    <select id="selectFocusTrue" resultType="java.lang.Integer"><!--查看我是否关注-->
+        SELECT COUNT(IF (fan=#{myUserKey} and focus=#{othersUserKey},1,null)) 'count' FROM focusAndFan
+    </select>
+
+    <!--关注用户-->
+    <insert id="addFocus" useGeneratedKeys="true" keyColumn="id"> <!-- useGeneratedKeys：有自动增长 keyProperty：自动增长字段名 -->
+        INSERT INTO `aboutlive`.`focusAndFan` (`fan`, `focus`) VALUES (#{myUserKey}, #{othersUserKey});
+    </insert>
+
+    <delete id="delFocus">
+        DELETE FROM focusAndFan WHERE fan=#{myUserKey} AND focus=#{othersUserKey}
+    </delete>
+
+    <!-- 搜索所有的相关内容-->
+    <select id="searchContent" resultType="com.aboutlive.aboutlive.Entity.User">
+        SELECT * FROM `user` WHERE name LIKE CONCAT('%',#{text},'%')
+    </select>
+
+    <!-- 查询经验总排行前100的用户-->
+    <select id="rankUser100" resultType="com.aboutlive.aboutlive.Entity.User">
+        SELECT u.userKey,u.`name`,u.headImage,u.experience FROM `user` u WHERE state=1 ORDER BY u.experience DESC limit 100;
+    </select>
+
+    <!--    指纹登录-->
+    <select id="fingerprintLogin" resultType="com.aboutlive.aboutlive.Entity.User">
+        SELECT *
+        FROM `user`
+        WHERE `user`.fingerprint = #{fingerprint};
+    </select>
+
+    <!--    我的关注-->
+    <select id="mutualRelationFocus" resultType="com.aboutlive.aboutlive.Entity.FocusAndFan">
+        SELECT * FROM focusAndFan WHERE fan=#{userKey}
+    </select>
+
+    <!--    我的关注-->
+    <select id="mutualRelation" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM focusAndFan WHERE fan=#{userKey} and focus=#{userKey1}
+    </select>
+
+</mapper>

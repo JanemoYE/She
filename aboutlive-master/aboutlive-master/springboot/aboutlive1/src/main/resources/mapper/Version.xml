@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aboutlive.aboutlive.Impl.VersionImpl">
+
+    <select id="VersionInformation" resultType="com.aboutlive.aboutlive.Entity.Version">
+        SELECT * FROM version
+    </select>
+
+    <update id="updateVersion">
+        UPDATE `aboutlive`.`version` SET `version`=#{version} WHERE `id`='1';
+    </update>
+</mapper>

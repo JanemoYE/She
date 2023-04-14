@@ -1,0 +1,352 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				// "navigationBarTitleText": "登录",
+				// "enablePullDownRefresh": false，,
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/user/user",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/add/add",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/user/setUp/setUp",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/user/information/information",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/comment/comment",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/myRelease/myRelease",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/userHome/userHome",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/user/foucs/foucs",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/user/fan/fan",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/register/register",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/collection/collection",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "information/information",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/type/type",
+			"style": {
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/type/searchContent/searchContent",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/type/rank/rank",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/type/emo/emo",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/type/new/new",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}
+	    ,{
+            "path" : "pages/user/allInformation/allInformation",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "app-plus": {
+                	"titleView": false
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/allInformation/likeInformation/likeInformation",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "app-plus": {
+                	"titleView": false
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/allInformation/commentInformation/commentInformation",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "app-plus": {
+                	"titleView": false
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/char/char",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleView": false
+                }
+            }
+            
+        }    ,{
+            "path" : "pages/user/prestige/prestige",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleView": false
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/topic/topic",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleView": false
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/topic/addTopic/addTopic",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleView": false
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/topic/AllTopic/AllTopic",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleView": false
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/setUp/log/log",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+
+        ,{
+            "path" : "pages/char/messageChar/messageChar",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": false,
+                "app-plus": {
+                	"titleView": false
+                }
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		 "app-plus" : {
+				"compatible": {
+					// 指定版本避免提示框
+					// "runtimeVersion"字段值表示应用兼容的uni-app运行环境版本号，可以配置多个版本号（使用英文字符,分隔）
+					// "compilerVersion"字段值表示编译环境版本号，通常配置当前HBuilderX的版本号或cli编译器版本即可（不可以配置多个）
+					// "runtimeVersion": "1.7.0", //根据实际情况填写
+					// "compilerVersion": "1.7.1", //根据实际情况填写  
+					
+					//true表示忽略版本检查提示框，HBuilderX1.9.0及以上版本支持  
+				    "ignoreVersion": true  
+						 
+				}  
+		}
+	},
+	"tabBar": {
+		"blurEffect": "extralight",
+		"backgroundColor": "#fff", //背景颜色
+		"color": "#7d7d7d", //默认颜色
+		"selectedColor": "#1e1e1e", //选中的颜色
+		"fontSize":"16px",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"text": "",
+				"iconPath": "static/indexFalse.png",
+				"selectedIconPath": "static/indexTrue.png"
+
+			},
+			{
+				"pagePath": "pages/char/char",
+				"text": "",
+				"iconPath": "static/vipFalse.png",
+				"selectedIconPath": "static/vipTrue.png"
+			},
+			{
+				"pagePath": "pages/add/add",
+				"text": "",
+				"iconPath": "static/addFalse.png",
+				"selectedIconPath": "static/addTrue.png"
+			},
+			{
+				"pagePath": "pages/type/type",
+				"text": "",
+				"iconPath": "static/typeFalse.png",
+				"selectedIconPath": "static/typeTrue.png"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"text": "",
+				"iconPath": "static/meFalse.png",
+				"selectedIconPath": "static/meTrue.png"
+			}
+		]
+		
+	}
+}
